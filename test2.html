@@ -9,22 +9,35 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <style type="text/css">
 .group {
-    background: yellow;
-    width: 200px;
+  padding-top:50px;
+  padding-bottom:50px;
+/*  background: #EEEEEE;
+  width: 400px;
+  height: 1000px;
+  */
 }
+
 .group .subgroup {
-    background: orange;
-    width: 150px;
-    height: 200px;
+  padding-top:50px;
+  padding-bottom:50px;
+  padding-right:150px;
+ /* background: #F5F5F5;
+  width: 450px;
+  height: 400px;
+  */
 }
+
 .fixed {
     position: fixed;
 }
+
 /* sidebar */
 .bs-docs-sidebar {
+    padding-top: 20px;
     padding-left: 20px;
     padding-bottom: 20px;
 }
+
 /* all links */
 .bs-docs-sidebar .nav>li>a {
     color: #999;
@@ -33,6 +46,7 @@
     font-size: 13px;
     font-weight: 400;
 }
+
 /* nested links */
 .bs-docs-sidebar .nav .nav>li>a {
     padding-top: 1px;
@@ -40,6 +54,7 @@
     padding-left: 30px;
     font-size: 12px;
 }
+
 /* active & hover links */
 .bs-docs-sidebar .nav>.active>a, 
 .bs-docs-sidebar .nav>li>a:hover, 
@@ -61,6 +76,7 @@
 .bs-docs-sidebar .nav .nav>.active:focus>a {
     font-weight: 500;
 }
+
 /* hide inactive nested list */
 .bs-docs-sidebar .nav ul.nav {
     display: none;           
@@ -69,27 +85,30 @@
 .bs-docs-sidebar .nav>.active>ul.nav {
     display: block;           
 }
+
 /* make sidebar srollable */
 .bs-docs-sidebar > ul {
     overflow-y: auto;
     height: 100%;
     padding-top: 20px;
 }
+
 </style>
 </head>
-<body data-spy="scroll" data-target="#myScrollspy">
+<body data-spy="scroll" data-target="#myScrollspy" style="font-family: Calibri;">
+<div class="container-fluid" style="background-color: gray; height: 200px; margin-bottom: 50px;"><i style="text-align:center; color:orange;">njxjtu</i></div>
 <div class="container">
     <div class="row">
         <!--Nav Bar -->
-        <nav class="col-xs-4 bs-docs-sidebar">
+        <nav class="col-xs-2 bs-docs-sidebar">
             <ul id="sidebar" class="nav nav-stacked fixed col-xs-4">
                 <li>
-                    <a href="#GroupA">Group A</a>
+                    <a href="#GroupA">Database</a>
                     <ul class="nav nav-stacked">
-                        <li><a href="#GroupASub1">Sub-Group 1</a></li>
-                        <li><a href="#GroupASub2">Sub-Group 2</a></li>
-                        <li><a href="#GroupASub3">Sub-Group 3</a></li>
-                        <li><a href="#GroupASub4">Sub-Group 4</a></li>
+                        <li><a href="#GroupASub1">Oracle VPD</a></li>
+                        <li><a href="#GroupASub2">MySQL row level security</a></li>
+                        <li><a href="#GroupASub3">Oracle dynamic SQL</a></li>
+                        <li><a href="#GroupASub4">MySQL expense system</a></li>
                         <li><a href="#GroupASub5">Sub-Group 5</a></li>
                         <li><a href="#GroupASub6">Sub-Group 6</a></li>
                         <li><a href="#GroupASub7">Sub-Group 7</a></li>
@@ -97,7 +116,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#GroupB">Group B</a>
+                    <a href="#GroupB">Machine Learning</a>
                     <ul class="nav nav-stacked">
                         <li><a href="#GroupBSub1">Sub-Group 1</a></li>
                         <li><a href="#GroupBSub2">Sub-Group 2</a></li>
@@ -110,7 +129,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#GroupC">Group C</a>
+                    <a href="#GroupC">Web Development</a>
                     <ul class="nav nav-stacked">
                         <li><a href="#GroupCSub1">Sub-Group 1</a></li>
                         <li><a href="#GroupCSub2">Sub-Group 2</a></li>
@@ -120,11 +139,41 @@
         </nav>
         
         <!--Main Content -->
-        <div class="col-xs-7 col-xs-offset-1">
+        <div class="col-xs-9 col-xs-offset-1">
             <section id="GroupA" class="group">
-                <h3>Group A</h3>
+                <h3>Database</h3>
                 <div id="GroupASub1" class="subgroup">
-                    <h4>Group A Sub 1</h4>
+                    <h4>Oracle VPD</h4>
+                    <pre>
+rem    Fine-grained access control policy package
+rem    to mask SSN columns owned by user01
+
+-- function making exception for account user02
+function f_ssnmask1(  
+p_schema varchar2, 
+p_table varchar2)
+return varchar2
+is
+return_val varchar2(400);
+begin
+if SYS_CONTEXT('USERENV','SESSION_USER') in ('user02') then
+ return_val:='1=1';
+else 
+ return_val:= '1=2';
+end if;
+ return return_val;
+end f_ssnmask1;
+
+-- add the defined function to security policy package
+dbms_rls.add_policy(
+  object_schema => 'user01',
+  object_name => 'table01',
+  policy_name => 'ssn_policy', -- come up with a policy name
+  function_schema => 'user01', -- the schema that the defined function belongs to
+  policy_function => 'f_ssnmask1',
+  sec_relevant_cols => 'ssn_column', -- the column name to be masked
+  sec_relevant_cols_opt => dbms_rls.allrows); -- the function applies to all rows
+                    </pre>
                 </div>
                 <div id="GroupASub2" class="subgroup">
                     <h4>Group A Sub 2</h4>
@@ -195,5 +244,6 @@ $('body').scrollspy({
     target: '.bs-docs-sidebar',
     offset: 40
 });
+
 </script
-</html>                  
+</html>                                   
