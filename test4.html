@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--
+<script type='text/javascript' src='js/jquery.js'></script>
+<script src="js/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<script type='text/javascript' src="js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<style type='text/css'>
+.group {
+	padding-top:50px;
+	padding-bottom:50px;
+	padding-right:150px;
+/*  background: #EEEEEE;
+  width: 400px;
+  height: 1000px;
+  */
+}
+
+.group .subgroup {
+	padding-top:50px;
+	padding-bottom:50px;
+	padding-right:150px;
+ /* background: #F5F5F5;
+  width: 450px;
+  height: 400px;
+  */
+}
+
+.fixed {
+  position: fixed;
+}
+/* sidebar */
+.bs-docs-sidebar {
+  padding-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top:100px;
+  padding-bottom:50px;
+  padding-left:150px;
+}
+/* all links */
+.bs-docs-sidebar .nav>li>a {
+  color: #999;
+  border-left: 2px solid transparent;
+  padding: 4px 20px;
+  font-size: 13px;
+  font-weight: 400;
+}
+/* nested links */
+.bs-docs-sidebar .nav .nav>li>a {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 30px;
+  font-size: 12px;
+}
+/* active & hover links */
+.bs-docs-sidebar .nav>.active>a, .bs-docs-sidebar .nav>li>a:hover,
+  .bs-docs-sidebar .nav>li>a:focus {
+  color: #009900;
+  text-decoration: none;
+  background-color: transparent;
+  border-left-color: #009900;
+}
+/* all active links */
+.bs-docs-sidebar .nav>.active>a, .bs-docs-sidebar .nav>.active:hover>a,
+  .bs-docs-sidebar .nav>.active:focus>a {
+  font-weight: 700;
+}
+/* nested active links */
+.bs-docs-sidebar .nav .nav>.active>a, .bs-docs-sidebar .nav .nav>.active:hover>a,
+  .bs-docs-sidebar .nav .nav>.active:focus>a {
+  font-weight: 500;
+}
+/* hide inactive nested list */
+.bs-docs-sidebar .nav ul.nav {
+  display: none;
+}
+/* show active nested list */
+.bs-docs-sidebar .nav>.active>ul.nav {
+  display: block;
+}
+
+body {
+  margin-top: 50px;
+  position: relative; /* required */
+}
+
+</style>
+<script type='text/javascript'>
+$(window).load(function(){
+$('body').scrollspy({
+    target: '.bs-docs-sidebar',
+    offset: 40
+});
+});
+</script>
+</head>
+<br>
+<body>
+
+  <div class="row">
+    <!--Nav Bar -->
+    <nav class="col-sm-3" id="myNavbar">
+      <ul id="sidebar" class="nav nav-pills nav-stacked">
+        <li><a href="#GroupA">Group A</a>
+          <ul class="nav nav-stacked">
+            <li><a href="#GroupASub1">Sub-Group 1</a></li>
+            <li><a href="#GroupASub2">Sub-Group 2</a></li>
+          </ul></li>
+        <li><a href="#GroupB">Group B</a>
+          <ul class="nav nav-stacked">
+            <li><a href="#GroupBSub1">Sub-Group 1</a></li>
+            <li><a href="#GroupBSub2">Sub-Group 2</a></li>
+          </ul></li>
+        <li><a href="#GroupC">Group C</a>
+          <ul class="nav nav-stacked">
+            <li><a href="#GroupCSub1">Sub-Group 1</a></li>
+            <li><a href="#GroupCSub2">Sub-Group 2</a></li>
+          </ul></li>
+      </ul>
+    </nav>
+
+    <!--Main Content -->
+    <div class="col-sm-9">
+      <section id="GroupA" class="group">
+        <h3>Group A</h3>
+        <div id="GroupASub1" class="subgroup">
+          <h4>Group A Sub 1</h4>
+         <pre style="width:500px;">delimiter $$
+
+drop procedure if exists p_test $$
+
+create procedure p_test()
+begin
+
+declare flag INT default 0;
+declare v_table varchar(20);
+declare v_concat varchar(100);
+declare v_sample_id int;
+declare v_text varchar(100);
+
+declare c_batch cursor for
+select temp.tn as im_table_name, group_concat(temp.cn) as im_column_names
+from (select table_name as tn,column_name as cn
+      from information_schema.columns
+      where table_name in (select im_table from material_type)
+      and column_name not in ('sample_id')) as temp
+group by temp.tn;
+
+declare c_batch2 cursor for
+select sample_id, temp_text
+from temp_store;
+declare continue handler for not found set flag=1;
+
+open c_batch;
+read_loop: LOOP
+fetch c_batch into v_table, v_concat;
+if flag=1 then 
+  leave read_loop;
+end if;
+set @a_table :=v_table;
+set @a_concat :=v_concat;
+set @str=concat('insert into temp_store select sample_id, concat_ws('','',', @a_concat, ') from ', @a_table);
+
+prepare stmt1 from @str;
+execute stmt1 ;
+
+end loop read_loop;
+close c_batch;
+
+set flag :=0;
+
+open c_batch2;
+read_loop2: loop
+fetch c_batch2 into v_sample_id, v_text;
+if flag=1 then 
+  leave read_loop2;
+end if;
+
+update sample_table
+set sample_text=v_text
+where sample_id=v_sample_id;
+
+end loop read_loop2;
+close c_batch2;
+
+end$$
+DELIMITER ;</pre>
+          <p>Database Administrators
+Each database requires at least one database administrator (DBA). An Oracle Database system can be large and can have many users. Therefore, database administration is sometimes not a one-person job, but a job for a group of DBAs who share responsibility.
+
+A database administrator's responsibilities can include the following tasks:
+
+Installing and upgrading the Oracle Database server and application tools
+
+Allocating system storage and planning future storage requirements for the database system
+
+Creating primary database storage structures (tablespaces) after application developers have designed an application
+
+Creating primary objects (tables, views, indexes) once application developers have designed an application
+
+Modifying the database structure, as necessary, from information given by application developers
+
+Enrolling users and maintaining system security
+
+Ensuring compliance with Oracle license agreements
+
+Controlling and monitoring user access to the database
+
+Monitoring and optimizing the performance of the database
+
+Planning for backup and recovery of database information
+
+Maintaining archived data on tape
+
+Backing up and restoring the database
+
+Contacting Oracle for technical supportDatabase Administrators
+Each database requires at least one database administrator (DBA). An Oracle Database system can be large and can have many users. Therefore, database administration is sometimes not a one-person job, but a job for a group of DBAs who share responsibility.
+
+A database administrator's responsibilities can include the following tasks:
+
+Installing and upgrading the Oracle Database server and application tools
+
+Allocating system storage and planning future storage requirements for the database system
+
+Creating primary database storage structures (tablespaces) after application developers have designed an application
+
+Creating primary objects (tables, views, indexes) once application developers have designed an application
+
+Modifying the database structure, as necessary, from information given by application developers
+
+Enrolling users and maintaining system security
+
+Ensuring compliance with Oracle license agreements
+
+Controlling and monitoring user access to the database
+
+Monitoring and optimizing the performance of the database
+
+Planning for backup and recovery of database information
+
+Maintaining archived data on tape
+
+Backing up and restoring the database
+
+Contacting Oracle for technical support</p>
+        </div>
+        <div id="GroupASub2" class="subgroup">
+          <h4>Group A Sub 2</h4>
+          <p>Database Administrators
+Each database requires at least one database administrator (DBA). An Oracle Database system can be large and can have many users. Therefore, database administration is sometimes not a one-person job, but a job for a group of DBAs who share responsibility.
+
+A database administrator's responsibilities can include the following tasks:
+
+Installing and upgrading the Oracle Database server and application tools
+
+Allocating system storage and planning future storage requirements for the database system
+
+Creating primary database storage structures (tablespaces) after application developers have designed an application
+
+Creating primary objects (tables, views, indexes) once application developers have designed an application
+
+Modifying the database structure, as necessary, from information given by application developers
+
+Enrolling users and maintaining system security
+
+Ensuring compliance with Oracle license agreements
+
+Controlling and monitoring user access to the database
+
+Monitoring and optimizing the performance of the database
+
+Planning for backup and recovery of database information
+
+Maintaining archived data on tape
+
+Backing up and restoring the database
+
+Contacting Oracle for technical support
+Database Administrators
+Each database requires at least one database administrator (DBA). An Oracle Database system can be large and can have many users. Therefore, database administration is sometimes not a one-person job, but a job for a group of DBAs who share responsibility.
+
+A database administrator's responsibilities can include the following tasks:
+
+Installing and upgrading the Oracle Database server and application tools
+
+Allocating system storage and planning future storage requirements for the database system
+
+Creating primary database storage structures (tablespaces) after application developers have designed an application
+
+Creating primary objects (tables, views, indexes) once application developers have designed an application
+
+Modifying the database structure, as necessary, from information given by application developers
+
+Enrolling users and maintaining system security
+
+Ensuring compliance with Oracle license agreements
+
+Controlling and monitoring user access to the database
+
+Monitoring and optimizing the performance of the database
+
+Planning for backup and recovery of database information
+
+Maintaining archived data on tape
+
+Backing up and restoring the database
+
+Contacting Oracle for technical support
+Database Administrators
+Each database requires at least one database administrator (DBA). An Oracle Database system can be large and can have many users. Therefore, database administration is sometimes not a one-person job, but a job for a group of DBAs who share responsibility.
+
+A database administrator's responsibilities can include the following tasks:
+
+Installing and upgrading the Oracle Database server and application tools
+
+Allocating system storage and planning future storage requirements for the database system
+
+Creating primary database storage structures (tablespaces) after application developers have designed an application
+
+Creating primary objects (tables, views, indexes) once application developers have designed an application
+
+Modifying the database structure, as necessary, from information given by application developers
+
+Enrolling users and maintaining system security
+
+Ensuring compliance with Oracle license agreements
+
+Controlling and monitoring user access to the database
+
+Monitoring and optimizing the performance of the database
+
+Planning for backup and recovery of database information
+
+Maintaining archived data on tape
+
+Backing up and restoring the database
+
+Contacting Oracle for technical support</p>
+        </div>
+      </section>
+      <section id="GroupB" class="group">
+        <h3>Group B</h3>
+        <div id="GroupBSub1" class="subgroup">
+          <h4>Group B Sub 1</h4>
+          <p>Database Administrators
+Each database requires at least one database administrator (DBA). An Oracle Database system can be large and can have many users. Therefore, database administration is sometimes not a one-person job, but a job for a group of DBAs who share responsibility.
+
+A database administrator's responsibilities can include the following tasks:
+
+Installing and upgrading the Oracle Database server and application tools
+
+Allocating system storage and planning future storage requirements for the database system
+
+Creating primary database storage structures (tablespaces) after application developers have designed an application
+
+Creating primary objects (tables, views, indexes) once application developers have designed an application
+
+Modifying the database structure, as necessary, from information given by application developers
+
+Enrolling users and maintaining system security
+
+Ensuring compliance with Oracle license agreements
+
+Controlling and monitoring user access to the database
+
+Monitoring and optimizing the performance of the database
+
+Planning for backup and recovery of database information
+
+Maintaining archived data on tape
+
+Backing up and restoring the database
+
+Contacting Oracle for technical support
+Database Administrators
+Each database requires at least one database administrator (DBA). An Oracle Database system can be large and can have many users. Therefore, database administration is sometimes not a one-person job, but a job for a group of DBAs who share responsibility.
+
+A database administrator's responsibilities can include the following tasks:
+
+Installing and upgrading the Oracle Database server and application tools
+
+Allocating system storage and planning future storage requirements for the database system
+
+Creating primary database storage structures (tablespaces) after application developers have designed an application
+
+Creating primary objects (tables, views, indexes) once application developers have designed an application
+
+Modifying the database structure, as necessary, from information given by application developers
+
+Enrolling users and maintaining system security
+
+Ensuring compliance with Oracle license agreements
+
+Controlling and monitoring user access to the database
+
+Monitoring and optimizing the performance of the database
+
+Planning for backup and recovery of database information
+
+Maintaining archived data on tape
+
+Backing up and restoring the database
+
+Contacting Oracle for technical support
+Database Administrators
+Each database requires at least one database administrator (DBA). An Oracle Database system can be large and can have many users. Therefore, database administration is sometimes not a one-person job, but a job for a group of DBAs who share responsibility.
+
+A database administrator's responsibilities can include the following tasks:
+
+Installing and upgrading the Oracle Database server and application tools
+
+Allocating system storage and planning future storage requirements for the database system
+
+Creating primary database storage structures (tablespaces) after application developers have designed an application
+
+Creating primary objects (tables, views, indexes) once application developers have designed an application
+
+Modifying the database structure, as necessary, from information given by application developers
+
+Enrolling users and maintaining system security
+
+Ensuring compliance with Oracle license agreements
+
+Controlling and monitoring user access to the database
+
+Monitoring and optimizing the performance of the database
+
+Planning for backup and recovery of database information
+
+Maintaining archived data on tape
+
+Backing up and restoring the database
+
+Contacting Oracle for technical support</p>
+        </div>
+        <div id="GroupBSub2" class="subgroup">
+          <h4>Group B Sub 2</h4>
+          <p>
+Creating primary objects (tables, views, indexes) once application developers have designed an application
+
+Modifying the database structure, as necessary, from information given by application developers
+
+Enrolling users and maintaining system security
+
+Ensuring compliance with Oracle license agreements
+
+Controlling and monitoring user access to the database
+
+Monitoring and optimizing the performance of the database
+
+Planning for backup and recovery of database information
+
+Maintaining archived data on tape
+
+Backing up and restoring the database
+
+Contacting Oracle for technical supportDatabase Administrators
+Each database requires at least one database administrator (DBA). An Oracle Database system can be large and can have many users. Therefore, database administration is sometimes not a one-person job, but a job for a group of DBAs who share responsibility.
+
+A database administrator's responsibilities can include the following tasks:
+
+Installing and upgrading the Oracle Database server and application tools
+
+Allocating system storage and planning future storage requirements for the database system
+
+Creating primary database storage structures (tablespaces) after application developers have designed an application
+
+Creating primary objects (tables, views, indexes) once application developers have designed an application
+
+Modifying the database structure, as necessary, from information given by application developers
+
+Enrolling users and maintaining system security
+
+Ensuring compliance with Oracle license agreements
+
+Controlling and monitoring user access to the database</p>
+        </div>
+      </section>
+      <section id="GroupC" class="group">
+        <h3>Group C</h3>
+        <div id="GroupCSub1" class="subgroup">
+          <h4>Group C Sub 1</h4>
+          <p>
+Creating primary objects (tables, views, indexes) once application developers have designed an application
+
+Modifying the database structure, as necessary, from information given by application developers
+
+Enrolling users and maintaining system security
+
+Ensuring compliance with Oracle license agreements
+
+Controlling and monitoring user access to the database
+
+Monitoring and optimizing the performance of the database
+
+Planning for backup and recovery of database information
+
+Maintaining archived data on tape
+
+Backing up and restoring the database
+
+Contacting Oracle for technical supportDatabase Administrators
+Each database requires at least one database administrator (DBA). An Oracle Database system can be large and can have many users. Therefore, database administration is sometimes not a one-person job, but a job for a group of DBAs who share responsibility.
+
+A database administrator's responsibilities can include the following tasks:
+
+Installing and upgrading the Oracle Database server and application tools
+
+Allocating system storage and planning future storage requirements for the database system
+
+Creating primary database storage structures (tablespaces) after application developers have designed an application
+
+Creating primary objects (tables, views, indexes) once application developers have designed an application
+
+Modifying the database structure, as necessary, from information given by application developers
+
+Enrolling users and maintaining system security
+
+Ensuring compliance with Oracle license agreements
+
+Controlling and monitoring user access to the database</p>
+        </div>
+        <div id="GroupCSub2" class="subgroup">
+          <h4>Group C Sub 2</h4>
+          <p>
+Creating primary objects (tables, views, indexes) once application developers have designed an application
+
+Modifying the database structure, as necessary, from information given by application developers
+
+Enrolling users and maintaining system security
+
+Ensuring compliance with Oracle license agreements
+
+Controlling and monitoring user access to the database
+
+Monitoring and optimizing the performance of the database
+
+Planning for backup and recovery of database information
+
+Maintaining archived data on tape
+
+Backing up and restoring the database
+
+Contacting Oracle for technical supportDatabase Administrators
+Each database requires at least one database administrator (DBA). An Oracle Database system can be large and can have many users. Therefore, database administration is sometimes not a one-person job, but a job for a group of DBAs who share responsibility.
+
+A database administrator's responsibilities can include the following tasks:
+
+Installing and upgrading the Oracle Database server and application tools
+
+Allocating system storage and planning future storage requirements for the database system
+
+Creating primary database storage structures (tablespaces) after application developers have designed an application
+
+Creating primary objects (tables, views, indexes) once application developers have designed an application
+
+Modifying the database structure, as necessary, from information given by application developers
+
+Enrolling users and maintaining system security
+
+Ensuring compliance with Oracle license agreements
+
+Controlling and monitoring user access to the database</p>
+        </div>
+      </section>
+    </div>
+  </div>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<script>
+$(document).ready(function(){
+
+
+  // Add smooth scrolling on all links inside the navbar
+  $("#myNavbar a").on('click', function(event) {
+
+    // Prevent default anchor click behavior
+    event.preventDefault();
+
+    // Store hash
+    var hash = this.hash;
+
+    // Using jQuery's animate() method to add smooth page scroll
+    // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+    $('html, body').animate({
+      scrollTop: $(hash).offset().top
+    }, 800, function(){
+   
+      // Add hash (#) to URL when done scrolling (default click behavior)
+      window.location.hash = hash;
+    });
+  });
+});
+</script>
+</body>
+</html>
