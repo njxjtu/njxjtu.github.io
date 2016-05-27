@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -5,20 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Table of Contents plugin for Bootstrap</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css" />
+    <!--[if lt IE 9]>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.ie.min.css" />
+    <![endif]-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v0.3.0/dist/bootstrap-toc.min.css">
     <link rel="stylesheet" href="/bootstrap-toc/bootstrap-toc.css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
     <link rel="stylesheet" href="/bootstrap-toc/assets/screen.css" media="screen" charset="utf-8">
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
-    <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v0.3.0/dist/bootstrap-toc.min.js"></script>
     <script src="/bootstrap-toc/bootstrap-toc.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
-  </head>
+    <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+      ga('create', 'UA-19048260-11', 'auto');
+      ga('send', 'pageview');
+
+      hljs.initHighlightingOnLoad();
+
+      $(function() {
+        $('#toc').append('<div class="hint">(creates this)</div>');
+      });
+    </script>
+  </head>
   <body data-spy="scroll" data-target="#toc">
-  <nav id="toc" data-toggle="toc"></nav>
+    <div class="github-fork-ribbon-wrapper right">
+      <div class="github-fork-ribbon">
+        <a href="https://github.com/afeld/bootstrap-toc">Fork me on GitHub</a>
+      </div>
+    </div>
     <div class="container">
       <div class="row">
         <div class="col-sm-3">
@@ -26,104 +46,74 @@
         </div>
         <div class="col-sm-9">
           <h1 class="page-header" id="table-of-contents-plugin-for-bootstrap">Table of Contents plugin for Bootstrap</h1>
-            <p>This plugin allows you to generate a table of contents for any page, based on the heading elements (<code class="highlighter-rouge">&lt;h1&gt;</code>, <code class="highlighter-rouge">&lt;h2&gt;</code>, etc.). It is meant to emulate the sidebar you see on <a href="http://getbootstrap.com/css/">the Bootstrap documentation site</a>.</p>
-            <h2 id="usage">Usage</h2>
-            <p>On top of the normal Bootstrap setup (see their <a href="http://getbootstrap.com/getting-started/">Getting Started</a> guide), you will need to include the Bootstrap Table of Contents stylesheet and JavaScript file.</p>
-            <div class="highlighter-rouge">
-              <pre class="highlight">
-                <code>
-                  <span class="c">&lt;!-- add after bootstrap.min.css --&gt;</span>
-                  <span class="nt">&lt;link</span> 
-                  <span class="na">rel=</span>
-                  <span class="s">"stylesheet"</span> 
-                  <span class="na">href=</span>
-                  <span class="s">"https://cdn.rawgit.com/afeld/bootstrap-toc/v0.3.0/dist/bootstrap-toc.min.css"</span><span class="nt">&gt;</span>
-                  <span class="c">&lt;!-- add after bootstrap.min.js --&gt;</span>
-                  <span class="nt">&lt;script </span>
-                  <span class="na">src=</span>
-                  <span class="s">"https://cdn.rawgit.com/afeld/bootstrap-toc/v0.3.0/dist/bootstrap-toc.min.js"</span>
-                  <span class="nt">&gt;&lt;/script&gt;</span>
-                </code>
-              </pre>
-            </div>
-            <p><a href="https://github.com/afeld/bootstrap-toc/tree/gh-pages/dist">Unminified versions</a> are also available.</p>
-            <p>Next, pick one of the two options below.</p>
-            <h3 id="via-data-attributes">Via data attributes</h3>
-            <p><em>Simplest.</em></p>
-            <p>Create a 
-              <code class="highlighter-rouge">&lt;nav&gt;</code> 
-              element with a 
-              <code class="highlighter-rouge">data-toggle="toc"</code> 
-              attribute.
-            </p>
-            <div class="highlighter-rouge">
-              <pre class="highlight">
-                <code>
-                  <span class="nt">&lt;nav</span> 
-                  <span class="na">id=</span>
-                  <span class="s">"toc"</span> 
-                  <span class="na">data-toggle=</span>
-                  <span class="s">"toc"</span>
-                  <span class="nt">&gt;&lt;/nav&gt;</span>
-                </code>
-              </pre>
-            </div>
-            <p>You can put this wherever on the page you like. Since this plugin leverages Bootstrap’s <a href="http://getbootstrap.com/javascript/#scrollspy">Scrollspy</a> plugin, you will also need to add a couple attributes to the <code class="highlighter-rouge">&lt;body&gt;</code>:</p>
-            <div class="highlighter-rouge">
-              <pre class="highlight">
-                <code>
-                  <span class="nt">&lt;body</span> 
-                  <span class="na">data-spy=</span>
-                  <span class="s">"scroll"</span> 
-                  <span class="na">data-target=</span>
-                  <span class="s">"#toc"</span>
-                  <span class="nt">&gt;</span>
-                </code>
-              </pre>
-            </div>
-            <h3 id="via-javascript">Via JavaScript</h3>
-            <p><em>If you need customization.</em></p>
-            <div class="highlighter-rouge">
-              <pre class="highlight">
-                <code>
-                  <span class="nx">$</span>
-                  <span class="p">(</span>
-                  <span class="kd">function</span>
-                  <span class="p">()</span> 
-                  <span class="p">{</span>
-                  <span class="kd">var</span> 
-                  <span class="nx">navSelector</span> 
-                  <span class="o">=</span> 
-                  <span class="s1">'&lt;something&gt;'</span>
-                  <span class="p">;</span>
-                  <span class="kd">var</span> 
-                  <span class="nx">$myNav</span> 
-                  <span class="o">=</span> 
-                  <span class="nx">$</span>
-                  <span class="p">(</span>
-                  <span class="nx">navSelector</span>
-                  <span class="p">);</span>
-                  <span class="nx">Toc</span>
-                  <span class="p">.</span>
-                  <span class="nx">init</span>
-                  <span class="p">(</span>
-                  <span class="nx">$myNav</span>
-                  <span class="p">);</span>
-                  <span class="nx">$</span>
-                  <span class="p">(</span>
-                  <span class="s1">'body'</span>
-                  <span class="p">).</span>
-                  <span class="nx">scrollspy</span>
-                  <span class="p">({</span>
-                  <span class="na">target</span>
-                  <span class="p">:</span> 
-                  <span class="nx">navSelector</span>
-                  <span class="p">});</span>
-                  <span class="p">});</span>
-                </code>
-              </pre>
-            </div>
-            <p>See the <a href="http://getbootstrap.com/javascript/#scrollspy">Scrollspy</a> documentation for more information about initializing that plugin.</p>
+
+<p><a href="https://travis-ci.org/afeld/bootstrap-toc"><img src="https://travis-ci.org/afeld/bootstrap-toc.svg?branch=gh-pages" alt="Build Status" /></a></p>
+
+<p>This <a href="http://getbootstrap.com/">Bootstrap</a> plugin allows you to generate a table of contents for any page, based on the heading elements (<code class="highlighter-rouge">&lt;h1&gt;</code>, <code class="highlighter-rouge">&lt;h2&gt;</code>, etc.). It is meant to emulate the sidebar you see on <a href="http://getbootstrap.com/css/">the Bootstrap documentation site</a>.</p>
+
+<p>This page is an example of the plugin in action – the table of contents you see on the left (or top, on mobile) was automatically generated, without having to manually keep all of the navigation items in sync with the headings.</p>
+
+<h2 id="usage">Usage</h2>
+
+<p>On top of the normal Bootstrap setup (see their <a href="http://getbootstrap.com/getting-started/">Getting Started</a> guide), you will need to include the Bootstrap Table of Contents stylesheet and JavaScript file.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">&lt;!-- add after bootstrap.min.css --&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"https://cdn.rawgit.com/afeld/bootstrap-toc/v0.3.0/dist/bootstrap-toc.min.css"</span><span class="nt">&gt;</span>
+<span class="c">&lt;!-- add after bootstrap.min.js --&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.rawgit.com/afeld/bootstrap-toc/v0.3.0/dist/bootstrap-toc.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+<p><a href="https://github.com/afeld/bootstrap-toc/tree/gh-pages/dist">Unminified versions</a> are also available.</p>
+
+<p>Next, pick one of the two options below.</p>
+
+<h3 id="via-data-attributes">Via data attributes</h3>
+
+<p><em>Simplest.</em></p>
+
+<p>Create a <code class="highlighter-rouge">&lt;nav&gt;</code> element with a <code class="highlighter-rouge">data-toggle="toc"</code> attribute.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;nav</span> <span class="na">id=</span><span class="s">"toc"</span> <span class="na">data-toggle=</span><span class="s">"toc"</span><span class="nt">&gt;&lt;/nav&gt;</span>
+</code></pre>
+</div>
+
+<p>You can put this wherever on the page you like. Since this plugin leverages Bootstrap’s <a href="http://getbootstrap.com/javascript/#scrollspy">Scrollspy</a> plugin, you will also need to add a couple attributes to the <code class="highlighter-rouge">&lt;body&gt;</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;body</span> <span class="na">data-spy=</span><span class="s">"scroll"</span> <span class="na">data-target=</span><span class="s">"#toc"</span><span class="nt">&gt;</span>
+</code></pre>
+</div>
+
+<h3 id="via-javascript">Via JavaScript</h3>
+
+<p><em>If you need customization.</em></p>
+
+<p>If you prefer to create your navigation element another way (e.g. within single-page apps), you can pass a jQuery object into <code class="highlighter-rouge">Toc.init()</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">navSelector</span> <span class="o">=</span> <span class="s1">'&lt;something&gt;'</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">$myNav</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">navSelector</span><span class="p">);</span>
+  <span class="nx">Toc</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">$myNav</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'body'</span><span class="p">).</span><span class="nx">scrollspy</span><span class="p">({</span>
+    <span class="na">target</span><span class="p">:</span> <span class="nx">navSelector</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>See the <a href="http://getbootstrap.com/javascript/#scrollspy">Scrollspy</a> documentation for more information about initializing that plugin.</p>
+
+<h4 id="options">Options</h4>
+
+<p>When calling <code class="highlighter-rouge">Toc.init()</code>, you can either pass in the jQuery object for the <code class="highlighter-rouge">&lt;nav&gt;</code> element (as seen above), or an options object:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">Toc</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+  <span class="na">$nav</span><span class="p">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'#myNav'</span><span class="p">),</span>
+  <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
 <p>All options are optional, unless otherwise indicated.</p>
 
 <table class="table">
