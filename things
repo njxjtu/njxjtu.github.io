@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"> -->
+<title>njxjtu</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<style type="text/css">
+ body {
+      position: relative;
+  }
+.group {
+  padding-top:50px;
+  padding-bottom:50px;
+/*  background: #EEEEEE;
+  width: 400px;
+  height: 1000px;
+  */
+}
+
+.group .subgroup {
+  padding-top:50px;
+  padding-bottom:50px;
+  padding-right:150px;
+ /* background: #F5F5F5;
+  width: 450px;
+  height: 400px;
+  */
+}
+
+.fixed {
+    position: fixed;
+}
+
+/* sidebar */
+.bs-docs-sidebar {
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+}
+
+/* all links */
+.bs-docs-sidebar .nav>li>a {
+    color: #999;
+    border-left: 2px solid transparent;
+    padding: 4px 20px;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+/* nested links */
+.bs-docs-sidebar .nav .nav>li>a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 30px;
+    font-size: 12px;
+}
+
+/* active & hover links */
+.bs-docs-sidebar .nav>.active>a, 
+.bs-docs-sidebar .nav>li>a:hover, 
+.bs-docs-sidebar .nav>li>a:focus {
+    color: #563d7c;                 
+    text-decoration: none;          
+    background-color: transparent;  
+    border-left-color: #563d7c; 
+}
+/* all active links */
+.bs-docs-sidebar .nav>.active>a, 
+.bs-docs-sidebar .nav>.active:hover>a,
+.bs-docs-sidebar .nav>.active:focus>a {
+    font-weight: 700;
+}
+/* nested active links */
+.bs-docs-sidebar .nav .nav>.active>a, 
+.bs-docs-sidebar .nav .nav>.active:hover>a,
+.bs-docs-sidebar .nav .nav>.active:focus>a {
+    font-weight: 500;
+}
+
+/* hide inactive nested list */
+.bs-docs-sidebar .nav ul.nav {
+    display: none;           
+}
+/* show active nested list */
+.bs-docs-sidebar .nav>.active>ul.nav {
+    display: block;           
+}
+
+/* make sidebar srollable */
+.bs-docs-sidebar > ul {
+    overflow-y: auto;
+    height: 100%;
+    padding-top: 20px;
+}
+
+</style>
+</head>
+<body data-spy="scroll" data-target="#myScrollspy" style="font-family: Calibri;">
+<div class="container-fluid" style="background-color: gray; height: 100px; margin-bottom: 50px;">
+</div>
+<div class="container">
+    <div class="row">
+        <!--Nav Bar -->
+        <nav class="col-xs-2 bs-docs-sidebar">
+            <ul id="sidebar" class="nav nav-stacked fixed col-xs-4">
+                <li>
+                    <a href="#GroupA">2018</a>
+                    <ul class="nav nav-stacked">
+                        <li><a href="#GroupASub1">Story1</a></li>
+                        <li><a href="#GroupASub2">Story2</a></li>
+                        <li><a href="#GroupASub3">Story3</a></li>
+                        <li><a href="#GroupASub4">Story4</a></li>
+                        <li><a href="#GroupASub5">Story5</a></li>
+                        <li><a href="#GroupASub6">Story6</a></li>
+                        <li><a href="#GroupASub7">Story7</a></li>
+                        <li><a href="#GroupASub8">Story8</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#GroupB">2019</a>
+                    <ul class="nav nav-stacked">
+                        <li><a href="#GroupBSub1">Story1</a></li>
+                        <li><a href="#GroupBSub2">Story2</a></li>
+                        <li><a href="#GroupBSub3">Story3</a></li>
+                        <li><a href="#GroupBSub4">Story4</a></li>
+                        <li><a href="#GroupBSub5">Story5</a></li>
+                        <li><a href="#GroupBSub6">Story6</a></li>
+                        <li><a href="#GroupBSub7">Story7</a></li>
+                        <li><a href="#GroupBSub8">Story8</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        
+        <!--Main Content -->
+        <div class="col-xs-9 col-xs-offset-1">
+            <section id="GroupA" class="group">
+                <h3>2018</h3>
+                <div id="GroupASub1" class="subgroup">
+                    <h4>Virtual Private Data (aka fine-grain access control)</h4>
+                    <div>
+                      <p><b>Senario:</b> To apply security control over database, for example, 
+                       to mask sensitive data for certain users in Oracle, there is 
+                       Virtual Private Database policy, aka fine-grain access control.
+                       Below is an example implemented for masking SSN data for most 
+                       database users but making exception for certain users:
+                      </p>
+                      <object type="text/plain" data="test.txt" border="0" style="overflow: hidden;">
+                      </object>
+                  </div>
+                    <pre>
+rem    Fine-grained access control policy package
+rem    to mask SSN columns owned by user01
+
+-- function making exception for account user02
+function f_ssnmask1(  
+p_schema varchar2, 
+p_table varchar2)
+return varchar2
+is
+return_val varchar2(400);
+begin
+if SYS_CONTEXT('USERENV','SESSION_USER') in ('user02') then
+ return_val:='1=1';
+else 
+ return_val:= '1=2';
+end if;
+ return return_val;
+end f_ssnmask1;
+
+-- add the defined function to security policy package
+dbms_rls.add_policy(
+  object_schema => 'user01',
+  object_name => 'table01',
+  policy_name => 'ssn_policy', -- come up with a policy name
+  function_schema => 'user01', -- the schema that the defined function belongs to
+  policy_function => 'f_ssnmask1',
+  sec_relevant_cols => 'ssn_column', -- the column name to be masked
+  sec_relevant_cols_opt => dbms_rls.allrows); -- the function applies to all rows
+                    </pre>
+                </div>
+                <div id="GroupASub2" class="subgroup">
+                    <h4>Hierarchical Queries</h4>
+                </div>
+                <div id="GroupASub3" class="subgroup">
+                    <h4>Dynamic SQL</h4>
+                    
+                </div>
+                <div id="GroupASub4" class="subgroup">
+                    <h4>Data Analysis (a student performance evaluation case)</h4>
+                </div>
+                <div id="GroupASub5" class="subgroup">
+                    <h4>Group A Sub 5</h4>
+                </div>
+                <div id="GroupASub6" class="subgroup">
+                    <h4>Group A Sub 6</h4>
+                </div>
+                <div id="GroupASub7" class="subgroup">
+                    <h4>Group A Sub 7</h4>
+                </div>
+                <div id="GroupASub8" class="subgroup">
+                    <h4>Group A Sub 8</h4>
+                </div>
+            </section>
+            
+            <section id="GroupB" class="group">
+                <h3>MySQL DB</h3>
+                <div id="GroupBSub1" class="subgroup">
+                    <h4>Expense System</h4>
+                </div>
+                <div id="GroupBSub2" class="subgroup">
+                    <h4>Row Level Security</h4>
+                </div>
+                <div id="GroupBSub3" class="subgroup">
+                    <h4>Group B Sub 3</h4>
+                </div>
+                <div id="GroupBSub4" class="subgroup">
+                    <h4>Group B Sub 4</h4>
+                </div>
+                <div id="GroupBSub5" class="subgroup">
+                    <h4>Group B Sub 5</h4>
+                </div>
+                <div id="GroupBSub6" class="subgroup">
+                    <h4>Group B Sub 6</h4>
+                </div>
+                <div id="GroupBSub7" class="subgroup">
+                    <h4>Group B Sub 7</h4>
+                </div>
+                <div id="GroupBSub8" class="subgroup">
+                    <h4>Group B Sub 8</h4>
+                </div>
+            </section>
+            
+            <section id="GroupC" class="group">
+                <h3>Machine Learning</h3>
+                <div id="GroupCSub1" class="subgroup">
+                    <h4>Classification</h4>
+                </div>
+                <div id="GroupCSub2" class="subgroup">
+                    <h4>Group C Sub 2</h4>
+                </div>
+            </section>    
+            
+            <section id="GroupD" class="group">
+                <h3>Big Data</h3>
+                <div id="GroupDSub1" class="subgroup">
+                    <h4>Hadoop</h4>
+                </div>
+                <div id="GroupDSub2" class="subgroup">
+                    <h4>Group D Sub 2</h4>
+                </div>
+            </section> 
+            
+            <section id="GroupE" class="group">
+                <h3>Node and MongoDB</h3>
+                <div id="GroupESub1" class="subgroup">
+                    <h4>MongoDB connection in Node</h4>
+                </div>
+                <div id="GroupESub2" class="subgroup">
+                    <h4>MySQL connection in Node</h4>
+                </div>
+            </section> 
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid" style="background-color: gray; height: 200px; margin-top: 50px;">
+	
+</body>
+<script>
+$('body').scrollspy({
+    target: '.bs-docs-sidebar',
+    offset: 40
+});
+
+</script>
+</html>                                   
