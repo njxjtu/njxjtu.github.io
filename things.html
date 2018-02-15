@@ -142,47 +142,9 @@
                 <h3>2018</h3>
                 <div id="GroupASub1" class="subgroup">
                     <h4>2018 Story1</h4>
-                    <div>
-			    <p><b>02/15/2018</b>
-			       <b>56 F Sunny, Windy 20mph</b> 
-			       It's a windy day, very hard to keep in the middle of lane. It's Chinese New Year, but no one is celebrating 
-			       in US. I go to work, Daniel goes to day care. 
-                            </p>
-                     
-                  </div>
                     <pre>
-		    
 		     <object type="text/plain" data="test.txt" border="0" style="overflow: hidden;">
-                      </object>
-		      
-rem    Fine-grained access control policy package
-rem    to mask SSN columns owned by user01
-
--- function making exception for account user02
-function f_ssnmask1(  
-p_schema varchar2, 
-p_table varchar2)
-return varchar2
-is
-return_val varchar2(400);
-begin
-if SYS_CONTEXT('USERENV','SESSION_USER') in ('user02') then
- return_val:='1=1';
-else 
- return_val:= '1=2';
-end if;
- return return_val;
-end f_ssnmask1;
-
--- add the defined function to security policy package
-dbms_rls.add_policy(
-  object_schema => 'user01',
-  object_name => 'table01',
-  policy_name => 'ssn_policy', -- come up with a policy name
-  function_schema => 'user01', -- the schema that the defined function belongs to
-  policy_function => 'f_ssnmask1',
-  sec_relevant_cols => 'ssn_column', -- the column name to be masked
-  sec_relevant_cols_opt => dbms_rls.allrows); -- the function applies to all rows
+                     </object>
                     </pre>
                 </div>
                 <div id="GroupASub2" class="subgroup">
@@ -212,28 +174,28 @@ dbms_rls.add_policy(
             <section id="GroupB" class="group">
                 <h3>MySQL DB</h3>
                 <div id="GroupBSub1" class="subgroup">
-                    <h4>Expense System</h4>
+                    <h4>2019 Story1</h4>
                 </div>
                 <div id="GroupBSub2" class="subgroup">
-                    <h4>Row Level Security</h4>
+                    <h42019 Story2</h4>
                 </div>
                 <div id="GroupBSub3" class="subgroup">
-                    <h4>Group B Sub 3</h4>
+                    <h4>2019 Story3</h4>
                 </div>
                 <div id="GroupBSub4" class="subgroup">
-                    <h4>Group B Sub 4</h4>
+                    <h4>2019 Story4</h4>
                 </div>
                 <div id="GroupBSub5" class="subgroup">
-                    <h4>Group B Sub 5</h4>
+                    <h4>2019 Story5</h4>
                 </div>
                 <div id="GroupBSub6" class="subgroup">
-                    <h4>Group B Sub 6</h4>
+                    <h4>2019 Story6</h4>
                 </div>
                 <div id="GroupBSub7" class="subgroup">
-                    <h4>Group B Sub 7</h4>
+                    <h4>2019 Story7</h4>
                 </div>
                 <div id="GroupBSub8" class="subgroup">
-                    <h4>Group B Sub 8</h4>
+                    <h4>2019 Story8</h4>
                 </div>
             </section>
             
