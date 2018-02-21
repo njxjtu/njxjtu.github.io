@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>things2</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<style type="text/css">
+ body {
+      position: relative;
+  }
+</style>
+</head>
+<body style="font-family: Calibri;">
+<div class="container-fluid" style="background-color: gray; height: 100px; margin-bottom: 50px;">
+</div>
+<div class="container">
+TEST
+</div>
+
+<div class="container-fluid" style="background-color: gray; height: 200px; margin-top: 50px;">
+	
+</body>
+</html>                                   
