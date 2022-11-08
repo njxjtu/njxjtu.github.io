@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>JS Bin</title>
+  <title>Nan CV Json</title>
   <link rel="stylesheet" href="https://rawgithub.com/yesmeck/jquery-jsonview/master/dist/jquery.jsonview.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
@@ -17,8 +17,20 @@
   <button id="toggle-level2-btn">Toggle level2</button>     <div id="json"></div>
   
   <script>
-  var json = {"hey": "guy","anumber": 243,"anobject": {"whoa": "nuts","anarray": [1,2,"thr<h1>ee"],"anotherarray": [1, 2], "more":"stuff"},"awesome": true,"bogus": false,"meaning": null, "japanese":"明日がある。", "link": "http://jsonview.com", "notLink": "http://jsonview.com is great"};
-    
+  var json = {"name": "Nan Jiang",
+	            "profile": {"education":{"undergraduate": {"major": "Electrical and Information Engineering",
+						        "degree": "Bachelor in Science",
+						        "school": {"school name": "Xi'an Jiaotong University",
+								   "school location": "Xi'an, China"}
+						        "duration": "2003-2007"}
+				      "graduate": {"major": "Electrical and Computer Engineering"
+				                   "degree": "Masters in Science"
+				                   "school": {"school name": "Duke University",
+				                              "school location": "Durham,NC,USA"}
+			                           "duration": "2008-2009"}
+	                               }
+	                 }
+	    }
 $(function() {
   $('#json').JSONView(json);
   
