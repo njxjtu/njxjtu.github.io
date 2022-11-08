@@ -17,20 +17,7 @@
   <button id="toggle-level2-btn">Toggle level2</button>     <div id="json"></div>
   
   <script>
-  var json = {"name": "Nan Jiang",
-	            "profile": {"education":{"undergraduate": {"major": "Electrical and Information Engineering",
-						        "degree": "Bachelor in Science",
-						        "school": {"school name": "Xi'an Jiaotong University",
-								   "school location": "Xi'an, China"}
-						        "duration": "2003-2007"}
-				      "graduate": {"major": "Electrical and Computer Engineering"
-				                   "degree": "Masters in Science"
-				                   "school": {"school name": "Duke University",
-				                              "school location": "Durham,NC,USA"}
-			                           "duration": "2008-2009"}
-	                               }
-	                 }
-	    }
+  var json = {"name": "Nan Jiang", "education": "MS"}
 $(function() {
   $('#json').JSONView(json);
   
