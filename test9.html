@@ -21,30 +21,37 @@
   <script>
   var json = {"name": "Nan Jiang",
  "education": [{"major": "Electrical and Computer Engineering",
-				                   "degree": "Masters in Science",
-				                   "school": {"school name": "Duke University",
-				                              "location": "Durham,NC,USA"},
-			                           "duration": "2008-2009"},
-	       {"major": "Electrical and Information Engineering",
-						        "degree": "Bachelor in Science",
-						        "school": {"school name": "Xi'an Jiaotong University",
-								   "location": "Xi'an, China"},
-						        "duration": "2003-2007"}
-				
-	            ],
+                           "degree": "Masters in Science",
+                           "school": {"school name": "Duke University",
+                                      "location": "Durham, NC, USA"},
+                                 "duration": "2008-2009"},
+         {"major": "Electrical and Information Engineering",
+                    "degree": "Bachelor in Science",
+                    "school": {"school name": "Xi'an Jiaotong University",
+                   "location": "Xi'an, China"},
+                    "duration": "2003-2007"}
+        
+              ],
  "experience": [
                {"title": "Application Developer",
                 "employer": "University of California, Davis",
                 "location": "Davis, CA",
-		"duration": "2013-present",
+    "duration": "2013-present",
                 "description": "Provide development and support for a variety of campus-wide critical systems and services."},
                 {"title": "Quality Assurance Engineer",
                 "employer": "Dorado Software",
                 "location": "El Dorado Hills, CA",
-		"duration": "2012-2013",
-                "description": "Developed and executed test plans.Performed system integration,and regression tests."}]
+    "duration": "2012-2013",
+                "description": "Developed and executed test plans.Performed system integration,and regression tests."}],
 
- }
+ "projects": [
+  {"project": "Central Authentication Services",
+   "description": "",
+   "time": ""}
+
+ ]
+
+ };
 
 $(function() {
   $('#json').JSONView(json);
