@@ -1,75 +1,81 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <style>
-      .renderjson a { text-decoration: none; }
-      .renderjson .disclosure { color: crimson;
-                                font-size: 150%; }
-      .renderjson .syntax { color: grey; }
-      .renderjson .string { color: darkred; }
-      .renderjson .number { color: darkcyan; }
-      .renderjson .boolean { color: blueviolet; }
-      .renderjson .key    { color: darkblue; }
-      .renderjson .keyword { color: blue; }
-      .renderjson .object.syntax { color: lightseagreen; }
-      .renderjson .array.syntax  { color: orange; }
-    </style>
-    <title></title>
-  </head>
-  <body>
-    <h1></h1>
+<head>
+  <meta charset="utf-8">
+  <title>Nan CV Json</title>
+  <link rel="stylesheet" href="https://rawgithub.com/yesmeck/jquery-jsonview/master/dist/jquery.jsonview.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
+  <script type="text/javascript" src="https://rawgithub.com/yesmeck/jquery-jsonview/master/dist/jquery.jsonview.js"></script>
+</head>
+<body>
+  <!--
+  <button id="collapse-btn">Collapse</button>
+  <button id="expand-btn">Expand</button>
+  <button id="toggle-btn">Toggle</button>
+  <button id="toggle-level1-btn">Toggle level1</button>
+  <button id="toggle-level2-btn">Toggle level2</button>   
+  -->
+  <div id="json"></div>
+  
+  <script>
+  var json = {"name": "Nan Jiang",
+ "education": [{"major": "Electrical and Computer Engineering",
+                           "degree": "Masters in Science",
+                           "school": {"school name": "Duke University",
+                                      "location": "Durham, NC, USA"},
+                                 "duration": "2008-2009"},
+         {"major": "Electrical and Information Engineering",
+                    "degree": "Bachelor in Science",
+                    "school": {"school name": "Xi'an Jiaotong University",
+                   "location": "Xi'an, China"},
+                    "duration": "2003-2007"}
+        
+              ],
+ "experience": [
+               {"title": "Application Developer",
+                "employer": "University of California, Davis",
+                "location": "Davis, CA",
+    "duration": "2013-present",
+                "description": "Provide development and support for a variety of campus-wide critical systems and services."},
+                {"title": "Quality Assurance Engineer",
+                "employer": "Dorado Software",
+                "location": "El Dorado Hills, CA",
+    "duration": "2012-2013",
+                "description": "Developed and executed test plans.Performed system integration,and regression tests."}],
 
-    <div id="dest"></div>
+ "projects": [
+  {"project": "Central Authentication Services",
+   "description": "",
+   "time": ""}
 
-    <script type="text/javascript" src="renderjson.js"></script>
-    <script>
-document.getElementById("dest").appendChild(
-  renderjson//.set_show_by_default(true)
-            //.set_show_to_level(2)
-            //.set_sort_objects(true)
-            //.set_icons('+', '-')
-              .set_max_string_length(100)
-    ([
-// JSON:
-	    {"name": "Nan Jiang",
-	     "profile": {"education":{"undergraduate": {"major": "Electrical and Information Engineering",
-						        "degree": "Bachelor in Science",
-						        "school": {"school name": "Xi'an Jiaotong University",
-								   "school location": "Xi'an, China"},
-						        "duration": "2003-2007"},
-				      "graduate": {"major": "Electrical and Computer Engineering",
-				                   "degree": "Masters in Science",
-				                   "school": {"school name": "Duke University",
-				                              "school location": "Durham,NC,USA"},
-			                           "duration": "2008-2009"}
-	                               }
-	                 }
-	    }
-]));
+ ]
 
-renderjson.set_property_list(["a", "c", "b", "d", "g", "h"]);
-document.getElementById("dest").appendChild(renderjson({ a:0, b:1, c:2, d:3, e:4, f:5, g:{nope:1, a:2}, h:{A:1,B:2,C:3} }));
+ };
 
-renderjson.set_property_list(void 0)
-          .set_replacer(function(k,v) {
-    var obj_from_dom = function (el) {
-        if (el.nodeType == el.TEXT_NODE)
-            return el.data;
-        var attributes="";
-        if (el.attributes)
-            for (var i=0; i<el.attributes.length; i++)
-                attributes += " "+el.attributes.item(i).name + "=\"" + el.attributes.item(i).value + "\"";
-        var obj = {};
-        obj["<"+el.tagName+attributes+">"] = Array.prototype.map.call(el.childNodes, obj_from_dom);
-        return obj;
-    };
-    if (v === window) return "<window>";
-    if (v === document) return "<document>";
-    if (typeof(v) == "number") return isFinite(v) ? v : v.toString(); // Capture NaNs and Infinity
-    if (typeof(v) == "object" && v && "nodeType" in v) return obj_from_dom(v);
-    else return v;
+$(function() {
+  $('#json').JSONView(json);
+  
+  $('#collapse-btn').on('click', function() {
+    $('#json').JSONView('collapse');
+  });
+  
+  $('#expand-btn').on('click', function() {
+    $('#json').JSONView('expand');
+  });
+  
+  $('#toggle-btn').on('click', function() {
+    $('#json').JSONView('toggle');
+  });
+  
+  $('#toggle-level1-btn').on('click', function() {
+    $('#json').JSONView('toggle', 1);
+  });
+  
+  $('#toggle-level2-btn').on('click', function() {
+    $('#json').JSONView('toggle', 2);
+  });
 });
-document.getElementById("dest").appendChild(renderjson({ window: window, document: document, bad_nums:[1/0, parseInt("abcd")], "#dest":document.getElementById("dest") }));
-    </script>
-  </body>
+  </script>
+</body>
 </html>
