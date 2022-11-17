@@ -22,12 +22,12 @@
   var json = {"name": "Nan Jiang",
  "education": [{"major": "Electrical and Computer Engineering",
                            "degree": "Masters in Science",
-                           "school": {"school name": "Duke University",
+                           "school": {"name": "Duke University",
                                       "location": "Durham, NC, USA"},
                                  "duration": "2008-2009"},
          {"major": "Electrical and Information Engineering",
                     "degree": "Bachelor in Science",
-                    "school": {"school name": "Xi'an Jiaotong University",
+                    "school": {"name": "Xi'an Jiaotong University",
                    "location": "Xi'an, China"},
                     "duration": "2003-2007"}
         
@@ -36,21 +36,94 @@
                {"title": "Application Developer",
                 "employer": "University of California, Davis",
                 "location": "Davis, CA",
-    "duration": "2013-present",
+                "duration": "2013-present",
                 "description": "Provide development and support for a variety of campus-wide critical systems and services."},
                 {"title": "Quality Assurance Engineer",
                 "employer": "Dorado Software",
                 "location": "El Dorado Hills, CA",
-    "duration": "2012-2013",
+                "duration": "2012-2013",
                 "description": "Developed and executed test plans.Performed system integration,and regression tests."}],
+  "skills": {
+    "programming": "Java, PL/SQL",
+    "framework": "Spring, Angular",
+    "database": "Oracle Database, MySQL",
+    "tools": "Eclipse, Visual Studio Code, Git, Jenkins, Mule",
+    "middleware": "Apache Tomcat",
+    "system": "Windows, Linux, MacOS"
+  },
 
  "projects": [
   {"project": "Central Authentication Services",
-   "description": "",
-   "time": ""}
+   "description": "Support the campus single sign-on service CAS.",
+   "languages and tools": "Java"},
+   {"project": "Computing Account Self Services",
+    "description": "Develop computing account self services for users to create computing account, reset passphrase, and manage DUO devices.",
+    "languages and tools": "Java, Angular"},
+   {"project": "WarnMe",
+    "description": "Developed the new WarnMe system for issuing emergency alerts to faculty, staff and students.",
+    "languages and tools": "Java, Angular"
+   },
+   {"project": "Online Directory",
+    "description": "Provide maintenance support for the new online directory.",
+    "languages and tools": "Java, Angular"
+   },
+   
+   {"project": "Banner 9 Forms Transformation",
+    "description": "Transform Oracle Forms to Java based web applications for student information system.",
+    "languages and tools": "Java, PL/SQL"
+   },
+   {"project": "Cross Campus Enrollment System",
+    "description": "Implement Cross Campus Enrollment System at UCDavis to provide high demand online courses for UC students.",
+    "languages and tools": "Java, PL/SQL, ColdFusion, Mule, ActiveMQ"},
+    {"project": "Grade Change API",
+     "description": "Created PL/SQL API to validate the grades submitted and automatically code the grade change in student information system (Banner).",
+     "languages and tools": "PL/SQL"},
+     {"project": "Load Math and Chemistry Placement Exam Results to SIS",
+      "description": "Developed the process using  to load Math and Chemistry placement exam results to Banner.",
+      "languages and tools": "Java, SQL, Pro*C, Shell Script" }
 
- ]
+ ],
+ "professional development": [
+   {"type": "course",
+    "title": "Front-End Web Development with React",
+    "provider": "The Hong Kong University of Science and Technology",
+    "time": "In progress" },
+    {"type": "conference",
+    "title": "EDUCAUSE Leadership Series | Women Advance Technology",
+    "provider": "EDUCAUSE",
+    "time": "2022" },
+    {"type": "training",
+    "title": "Oracle Unified Directory (OUD) Training",
+    "provider": "New Horizons Learning Group",
+    "time": "2022" },
+    {"type": "course",
+    "title": "Emotional and Social Intelligence",
+    "provider": "University of California, Davis",
+    "time": "2022" },
+    {"type": "course",
+    "title": "Introduction to Data Science in Python",
+    "provider": "University of Michigan",
+    "time": "2022" },
+    {"type": "training",
+    "title": "MuleSoft AP-Dev Advance Training",
+    "provider": "Mulesoft",
+    "time": "2016" },
+    {"type": "training",
+    "title": "Groovy and Grails Training",
+    "provider": "VMware",
+    "time": "2014" }
 
+   ],
+   "awards": [
+    {"award": "SPOT award for supporting CAS",
+    "time": "September 2022"},
+    {"award": "SPOT award for collaborative effort supporting Decision Day",
+    "time": "August 2022"},
+    {"award": "STAR award for hard work dedication during pandemic",
+     "time": "2021"},
+    {"award": "Accomplishment for delivering Cross Campus Enrollment System at UCDavis",
+     "time": "2018"}
+   ]
  };
 
 $(function() {
